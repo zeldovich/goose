@@ -196,45 +196,53 @@ func (ctx Ctx) coqType(e ast.Expr) coq.Type {
 }
 
 func isLockRef(t types.Type) bool {
-	if t, ok := t.(*types.Pointer); ok {
-		if t, ok := t.Elem().(*types.Named); ok {
-			name := t.Obj()
-			return name.Pkg().Name() == "sync" &&
-				name.Name() == "Mutex"
-		}
+	if pt, ok := t.(*types.Pointer); ok {
+		t = pt.Elem()
+	}
+
+	if t, ok := t.(*types.Named); ok {
+		name := t.Obj()
+		return name.Pkg().Name() == "sync" &&
+			name.Name() == "Mutex"
 	}
 	return false
 }
 
 func isCFMutexRef(t types.Type) bool {
-	if t, ok := t.(*types.Pointer); ok {
-		if t, ok := t.Elem().(*types.Named); ok {
-			name := t.Obj()
-			return name.Pkg().Name() == "cfmutex" &&
-				name.Name() == "CFMutex"
-		}
+	if pt, ok := t.(*types.Pointer); ok {
+		t = pt.Elem()
+	}
+
+	if t, ok := t.(*types.Named); ok {
+		name := t.Obj()
+		return name.Pkg().Name() == "cfmutex" &&
+			name.Name() == "CFMutex"
 	}
 	return false
 }
 
 func isCondVar(t types.Type) bool {
-	if t, ok := t.(*types.Pointer); ok {
-		if t, ok := t.Elem().(*types.Named); ok {
-			name := t.Obj()
-			return name.Pkg().Name() == "sync" &&
-				name.Name() == "Cond"
-		}
+	if pt, ok := t.(*types.Pointer); ok {
+		t = pt.Elem()
+	}
+
+	if t, ok := t.(*types.Named); ok {
+		name := t.Obj()
+		return name.Pkg().Name() == "sync" &&
+			name.Name() == "Cond"
 	}
 	return false
 }
 
 func isWaitGroup(t types.Type) bool {
-	if t, ok := t.(*types.Pointer); ok {
-		if t, ok := t.Elem().(*types.Named); ok {
-			name := t.Obj()
-			return name.Pkg().Name() == "sync" &&
-				name.Name() == "WaitGroup"
-		}
+	if pt, ok := t.(*types.Pointer); ok {
+		t = pt.Elem()
+	}
+
+	if t, ok := t.(*types.Named); ok {
+		name := t.Obj()
+		return name.Pkg().Name() == "sync" &&
+			name.Name() == "WaitGroup"
 	}
 	return false
 }
